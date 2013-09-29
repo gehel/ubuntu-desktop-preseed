@@ -1,0 +1,20 @@
+### Localization
+# Preseeding only locale sets language, country and locale.
+#d-i debian-installer/locale string en_GB.UTF-8
+
+# The values can also be preseeded individually for greater flexibility.
+d-i debian-installer/language string en
+d-i debian-installer/country string CH
+d-i debian-installer/locale string en_GB.UTF-8
+# Optionally specify additional locales to be generated.
+d-i localechooser/supported-locales en_GB.UTF-8
+
+# Keyboard selection.
+# Disable automatic (interactive) keymap detection.
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/modelcode string pc105
+d-i keyboard-configuration/layoutcode string ch
+# To select a variant of the selected layout (if you leave this out, the
+# basic form of the layout will be used):
+d-i keyboard-configuration/variantcode string fr
+

@@ -1,0 +1,72 @@
+### Partitioning
+
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string crypto
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-lvm/confirm boolean true
+
+# For LVM partitioning, you can select how much of the volume group to use
+# for logical volumes.
+d-i partman-auto-lvm/guided_size string max
+
+d-i partman-auto/choose_recipe select boot-root
+######d-i partman-auto-lvm/new_vg_name string crypted
+
+
+d-i partman-auto/expert_recipe string                     \
+  boot-root ::                                            \
+          128 50 128 ext4                                 \
+                  $primary{ } $bootable{ }                \
+                  method{ format } format{ }              \
+                  use_filesystem{ } filesystem{ ext4 }    \
+                  mountpoint{ /boot }                     \
+          .                                               \
+          4000 50 10000 ext4                              \
+                  $defaultignore{ }                       \
+                  $lvmok{ }                               \
+                  lv_name{ root }                         \
+                  method{ format }                        \
+                  format{ }                               \
+                  use_filesystem{ }                       \
+                  filesystem{ ext4 }                      \
+                  mountpoint{ / }                         \
+          .                                               \
+          4096 50 4096 linux-swap                         \
+                  $defaultignore{ }                       \
+                  $lvmok{ }                               \
+                  lv_name{ swap }                         \
+                  method{ swap } format{ }                \
+          .                                               \
+          1000 50 1000000 ext4                            \
+                  $defaultignore{ }                       \
+                  $lvmok{ }                               \
+                  lv_name{ home }                         \
+                  method{ format }                        \
+                  format{ }                               \
+                  use_filesystem{ }                       \
+                  filesystem{ ext4 }                      \
+                  mountpoint{ /home }                     \
+         .
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+d-i partman/choose_partition select Finish partitioning and write changes to disk
+
+# This makes partman automatically partition without confirmation.
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+## Controlling how partitions are mounted
+# The default is to mount by UUID, but you can also choose "traditional" to
+# use traditional device names, or "label" to try filesystem labels before
+# falling back to UUIDs.
+d-i partman/mount_style select label
+
