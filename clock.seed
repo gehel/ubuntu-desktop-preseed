@@ -1,6 +1,6 @@
 ### Clock and time zone setup
 # Controls whether or not the hardware clock is set to UTC.
-d-i clock-setup/utc boolean true
+d-i clock-setup/utc boolean false
 
 # You may set this to any valid setting for $TZ; see the contents of
 # /usr/share/zoneinfo/ for valid values.

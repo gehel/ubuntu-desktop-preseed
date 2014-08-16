@@ -1,5 +1,6 @@
 #!/bin/sh
 #ISO=ubuntu-13.04-desktop-amd64.iso
+DISTRO=trusty
 ISO=mini.iso
 MOUNT_POINT=/mnt
 IMAGE_DIR=image
@@ -8,7 +9,7 @@ IMAGE=custom.iso
 BOOTCAT=boot.cat
 ISOLINUX_BIN=isolinux.bin
 
-wget -cv http://archive.ubuntu.com/ubuntu/dists/raring/main/installer-amd64/current/images/netboot/mini.iso
+wget -cv http://archive.ubuntu.com/ubuntu/dists/${DISTRO}/main/installer-amd64/current/images/netboot/mini.iso
 
 rm -rf $IMAGE_DIR
 mkdir $IMAGE_DIR
